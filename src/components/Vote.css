@@ -1,0 +1,76 @@
+.vote-container {
+  height: 368px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vote-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+span.name {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+
+  color: #616B7C;  
+}
+
+span.instructions {
+  padding-bottom: 8px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+
+  color: #616B7C;
+}
+
+.vote-container button {
+  display: flex;
+  flex-direction: row;
+  font-weight: 900;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 20px;
+  color: #fcfcff;
+  width: 100%;
+  cursor: pointer;
+  background: #da1a5b;
+  border: 1px solid #c00d53;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.vote-container button.disabled {
+  color: gray;
+  background: #E8E9F0;
+  border: 1px solid #E8E9F0;
+}
+
+.vote-item-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.vote-item {
+  width: 208px;
+  height: 208px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.vote-item.selected {
+  background: url(.jpg), #E8E9F0;
+  border: 1px solid #616B7C;
+  box-shadow: 0px 20px 16px -5px rgba(55, 59, 77, 0.15), 0px 8px 16px -6px rgba(55, 59, 77, 0.15);
+  border-radius: 8px;  
+}

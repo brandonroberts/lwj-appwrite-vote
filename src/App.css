@@ -1,0 +1,54 @@
+body {
+  background: #FFF;
+  height: 100vh;
+  width: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.lwj-title {
+  display: flex;
+  justify-content: center;  
+  width: 200px;
+  height: 18px;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+    
+  color: #DA1A5B;  
+}
+
+.appwrite-vote {
+  width: 250px;
+  height: 48px;
+  padding-bottom: 2rem;
+  
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 150%;
+  
+  color: #373B4D;
+  display: flex;
+  justify-content: center;
+}
