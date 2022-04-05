@@ -33,7 +33,7 @@ export default function LoginForm({ user }) {
                   src={item.imgUrl}
                 />
               </div>
-              <div className="vote-count">{votes[item['$id']] || 0}</div>
+              <div className="vote-count"></div>
             </div>
           );
         })}
