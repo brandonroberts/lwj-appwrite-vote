@@ -3,16 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/LoginForm';
 import Vote from './components/Vote';
-import { api } from './api';
 
 function App() {
   const [user, setUser] = useState('');
-
-  useEffect(() => {
-    api.account.get().then((user) => {
-      setUser(user);
-    }, () => {});
-  }, []);
 
   return (
     <Routes>

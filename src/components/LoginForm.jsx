@@ -1,5 +1,5 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../api';
 import './LoginForm.css';
 
 export default function LoginForm({ setUser }) {
@@ -7,17 +7,7 @@ export default function LoginForm({ setUser }) {
 
   async function login(e) {
     e.preventDefault();
-    try {
-        const session = await api.account.createAnonymousSession();
-        setUser(session);
-        if (e.target.name.value) {
-          await api.account.updateName(e.target.name.value);
-        }
-      } catch(e) {
-        
-      } finally {
-        navigate('/vote');
-    }
+
   }
 
   return (
