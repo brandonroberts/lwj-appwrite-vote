@@ -1,4 +1,3 @@
-import { Query } from 'appwrite';
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 import './Vote.css';
@@ -8,6 +7,7 @@ export default function LoginForm() {
   const [selected, setSelected] = useState('');
   const [items, setItems] = useState([]);
   const [voted, setVoted] = useState(false);
+  const [votes, setVotes] = useState({});
 
   useEffect(() => {
     api.account.get().then((user) => {
@@ -17,13 +17,23 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      api.database.listDocuments('votes', [
-        Query.equal('userId', user.$id)
-      ]).then((data) => {
-        if (data.documents.length > 0) {
+      api.database.listDocuments('votes').then((data) => {
+        const votedDoc = data.documents.find(doc => doc.userId === user.$id);
+
+        if (votedDoc) {
           setVoted(true);
-          setSelected(data.documents[0]['itemId']);
+          setSelected(votedDoc.itemId);
         }
+
+        const items = {};
+        data.documents.forEach(doc => {
+          if(items[doc.itemId]) {
+            items[doc.itemId]++;
+          } else {
+            items[doc.itemId] = 1;
+          }
+        });
+        setVotes(items);
       });
     }
   }, [user]);
@@ -34,8 +44,30 @@ export default function LoginForm() {
       .then((data) => setItems(data.documents));
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = api.subscribe(['collections.votes.documents'], data => {
+      if (data.event === 'database.documents.create') {
+
+        setVotes(currentVotes => {
+          const newVotes = { ...currentVotes };
+
+          if(newVotes[data.payload.itemId]) {
+            newVotes[data.payload.itemId]++;
+          } else {
+            newVotes[data.payload.itemId] = 1;
+          }
+          return newVotes;
+        });
+      }
+    })
+
+    return () => {
+      unsubscribe();
+    }
+  }, [])
+
   function select(itemId) {
-    if (!voted) {
+    if(!voted) {
       setSelected(itemId);
     }
   }
@@ -76,14 +108,14 @@ export default function LoginForm() {
                   onClick={() => select(item['$id'])}
                 />
               </div>
-              <div className="vote-count">{0}</div>
+              <div className="vote-count">{votes[item['$id']] || 0}</div>
             </div>
           );
         })}
       </div>
 
       <form className="vote-form" onSubmit={vote}>
-        <button disabled={!selected || voted} className={!selected || voted ? ' disabled' : ''}type="submit">Vote</button>
+        <button disabled={!selected || voted} type="submit">Vote</button>
       </form>
     </div>
   );
