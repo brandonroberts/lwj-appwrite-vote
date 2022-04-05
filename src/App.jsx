@@ -1,9 +1,19 @@
+import { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/LoginForm';
 import Vote from './components/Vote';
+import { api } from './api';
 
 function App() {
+  const [user, setUser] = useState('');
+
+  useEffect(() => {
+    api.account.get().then((user) => {
+      setUser(user);
+    }, () => {});
+  }, []);
+
   return (
     <Routes>
       <Route
@@ -11,7 +21,7 @@ function App() {
         element={
           <div className="app-container">
             <div className="content">
-              <Vote />
+              { user ? <Vote user={user} /> : '' }
             </div>
           </div>
         }
@@ -23,7 +33,7 @@ function App() {
             <div className="content">
               <span className="lwj-title">Learn With Jason</span>
               <span className="appwrite-vote">Entry to Vote</span>
-              <LoginForm />
+              <LoginForm setUser={setUser} />
             </div>
           </div>
         }

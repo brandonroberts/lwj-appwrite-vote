@@ -2,18 +2,11 @@ import { useEffect, useState } from 'react';
 import { api } from '../api';
 import './Vote.css';
 
-export default function LoginForm() {
-  const [user, setUser] = useState('');
+export default function LoginForm({ user }) {
   const [selected, setSelected] = useState('');
   const [items, setItems] = useState([]);
   const [voted, setVoted] = useState(false);
   const [votes, setVotes] = useState({});
-
-  useEffect(() => {
-    api.account.get().then((user) => {
-      setUser(user);
-    });
-  }, []);
 
   useEffect(() => {
     if (user) {
