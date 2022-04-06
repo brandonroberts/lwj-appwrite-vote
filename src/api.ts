@@ -1,5 +1,5 @@
 import { Appwrite } from 'appwrite';
 
 export const api = new Appwrite();
-api.setEndpoint('http://localhost/v1');
-api.setProject('lwj-voting');
+api.setEndpoint('https://lwj.sideproject.live/v1');
+api.setProject('lwj-vote');
