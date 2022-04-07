@@ -10,7 +10,7 @@ export default function LoginForm({ user }) {
 
   useEffect(() => {
     if (user) {
-      api.database.listDocuments('votes').then((data) => {
+      api.database.listDocuments('votes', [], 100).then((data) => {
         const votedDoc = data.documents.find(doc => doc.userId === user.$id);
 
         if (votedDoc) {
@@ -31,10 +31,9 @@ export default function LoginForm({ user }) {
     }
   }, [user]);
 
-  useEffect(() => {
-    api.database
-      .listDocuments('items')
-      .then((data) => setItems(data.documents));
+  useEffect(async() => {
+    const data = await api.database.listDocuments('item');
+    setItems(data.documents);
   }, []);
 
   useEffect(() => {
@@ -105,7 +104,7 @@ export default function LoginForm({ user }) {
                 key={item.id}
               >
                 <img
-                  src={item.imgUrl}
+                  src={item.imageUrl}
                   onClick={() => select(item['$id'])}
                 />
               </div>
