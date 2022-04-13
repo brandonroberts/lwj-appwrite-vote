@@ -1,3 +1,4 @@
+import { Query } from 'appwrite';
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 import './Vote.css';
@@ -7,30 +8,20 @@ export default function LoginForm({ user }) {
   const [items, setItems] = useState([]);
   const [votes, setVotes] = useState({});
 
-  useEffect(() => {
-    if (user) {
-      api.database.listDocuments('votes', [], 100).then((data) => {
-        const votedDoc = data.documents.find(doc => doc.userId === user.$id);
-
-        if (votedDoc) {
-          setSelected(votedDoc.itemId);
-        }
-
-        const items = {};
-        data.documents.forEach(doc => {
-          if(items[doc.itemId]) {
-            items[doc.itemId]++;
-          } else {
-            items[doc.itemId] = 1;
-          }
-        });
-        setVotes(items);
-      });
-    }
-  }, [user]);
-
   useEffect(async() => {
     const data = await api.database.listDocuments('item');
+    const reqs = data.documents.map(doc => api.database.listDocuments('votes', [
+      Query.equal('itemId', doc.$id)
+    ]))
+    const counts = await Promise.all(reqs);
+    const totals = {};
+    counts.forEach(count => {
+      if (count.total > 0) {
+        totals[count.documents[0].itemId] = count.total;
+      }
+    });
+    
+    setVotes(totals);    
     setItems(data.documents);
   }, []);
 
