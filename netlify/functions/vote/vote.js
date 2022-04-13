@@ -1,7 +1,7 @@
 const { Appwrite } = require('appwrite')
 const api = new Appwrite();
 api.setEndpoint('https://lwj.sideproject.live/v1');
-api.setProject('lwj-vote');
+api.setProject('624f182c32b28d93bab3');
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const handler = async (event) => {
   try {
