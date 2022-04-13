@@ -5,7 +5,6 @@ import './Vote.css';
 export default function LoginForm({ user }) {
   const [selected, setSelected] = useState('');
   const [items, setItems] = useState([]);
-  const [voted, setVoted] = useState(false);
   const [votes, setVotes] = useState({});
 
   useEffect(() => {
@@ -14,7 +13,6 @@ export default function LoginForm({ user }) {
         const votedDoc = data.documents.find(doc => doc.userId === user.$id);
 
         if (votedDoc) {
-          setVoted(true);
           setSelected(votedDoc.itemId);
         }
 
@@ -59,9 +57,7 @@ export default function LoginForm({ user }) {
   }, [])
 
   function select(itemId) {
-    if(!voted) {
-      setSelected(itemId);
-    }
+    setSelected(itemId);
   }
 
   async function vote(e) {
@@ -79,8 +75,6 @@ export default function LoginForm({ user }) {
           userId: user.$id,
         })
       });
-  
-      setVoted(true);
     } catch(e) {
       console.log(`Error: ${e}`);
     }
@@ -115,7 +109,7 @@ export default function LoginForm({ user }) {
       </div>
 
       <form className="vote-form" onSubmit={vote}>
-        <button disabled={!selected || voted} type="submit">Vote</button>
+        <button disabled={!selected} type="submit">Vote</button>
       </form>
     </div>
   );
